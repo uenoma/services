@@ -26,11 +26,11 @@ function Characters() {
     let filteredData = response.data;
     if (filter.length > 0) {
       filteredData = response.data.filter(function (character) {
-        if (character.name.indexOf(filter) >= 0 || 
-            character.species.indexOf(filter) >= 0 ||
-            character.level.indexOf(filter) >= 0 ||
-            character.alignment.indexOf(filter) >= 0 ||
-            character.player_name.indexOf(filter) >= 0) {
+        if (character.name.indexOf(filter) >= 0 ||
+          character.species.indexOf(filter) >= 0 ||
+          character.level.indexOf(filter) >= 0 ||
+          character.alignment.indexOf(filter) >= 0 ||
+          character.player_name.indexOf(filter) >= 0) {
           return true;
         }
         return false
@@ -81,7 +81,9 @@ function Characters() {
       <h2>DnD Hideout Character Database</h2>
       <div className="CharactersHeader">
         <button onClick={() => { window.location.href = "https://dndhideout.com/dndcs2014/" }}>新規作成</button>
-        <input id="searchWord"></input><button onClick={() => {searchCharacter()}}>検索</button>
+        <div>
+          <input id="searchWord"></input><button onClick={() => { searchCharacter() }}>検索</button>
+        </div>
       </div>
       <div className="CharactersBody">
         <table className="CharactersTable">

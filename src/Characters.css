@@ -5,6 +5,8 @@
 
 .CharactersHeader {
   margin-bottom: 10px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .CharactersHeader button {
@@ -13,7 +15,7 @@
 }
 
 .CharactersHeader input {
-  width: 200px;
+  width: 150px;
   margin-right: 5px;
 }
 
