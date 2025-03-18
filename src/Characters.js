@@ -1,10 +1,12 @@
 import './Characters.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import ProgressContent from './ProgressContent';
 
 function Characters() {
 
   const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const searchCharacter = () => {
     fetchCharacters();
@@ -15,6 +17,7 @@ function Characters() {
   }
 
   const fetchCharacters = async () => {
+    setIsLoading(true);
     const api = "https://dndhideout.com/services/dnd_characters2014/public/api/characters"
     const response = await axios.get(api);
 
@@ -45,9 +48,14 @@ function Characters() {
     });
 
     setData(sortedData);
+    setIsLoading(false);
   }
 
   const characterItems = () => {
+    if (isLoading) {
+      return <tr><td colspan="6"><ProgressContent /></td></tr>
+    }
+
     if (data) {
       return data.map((character, index) => {
         return (
