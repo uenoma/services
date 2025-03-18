@@ -89,7 +89,7 @@ function Characters() {
         <table className="CharactersTable">
           <tbody>
             <tr>
-              <th>No.</th>
+              <th>ID</th>
               <th>キャラクター名</th>
               <th>種族</th>
               <th>クラス＆レベル</th>
