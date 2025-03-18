@@ -1,0 +1,46 @@
+.Characters {
+  margin: 10px;
+  
+}
+
+.CharactersHeader {
+  margin-bottom: 10px;
+}
+
+.CharactersHeader button {
+  width: 100px;
+  margin-right: 20px;
+}
+
+.CharactersHeader input {
+  width: 300px;
+  margin-right: 5px;
+}
+
+.CharactersBody {
+  display: flex;
+  flex-direction: column;
+}
+
+.CharactersItem {
+  display: flex;
+  flex-direction: row;
+  border: solid 1px gray;
+}
+
+.CharactersTable th {
+  background-color: aliceblue;
+  padding: 5px 10px 5px 10px;
+}
+
+.CharactersTable td {
+  border-right: solid 1px gray;
+  border-bottom: solid 1px gray;
+  padding: 5px 10px 5px 10px;
+  cursor: pointer;
+}
+
+.CharactersTable tr:hover {
+  background-color: lightblue;
+}
+
