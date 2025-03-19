@@ -4,21 +4,22 @@ import axios from 'axios';
 import ProgressContent from './ProgressContent';
 
 function Characters() {
-
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
 
   const searchCharacter = () => {
     fetchCharacters();
-  }
+  };
 
   const selectedCharacter = (character) => {
     window.location.href = "https://dndhideout.com/dndcs2014/?id=" + character.id;
-  }
+  };
 
   const fetchCharacters = async () => {
     setIsLoading(true);
-    const api = "https://dndhideout.com/services/dnd_characters2014/public/api/characters"
+    const api = "https://dndhideout.com/services/dnd_characters2014/public/api/characters";
     const response = await axios.get(api);
 
     const filter = document.getElementById("searchWord").value;
@@ -33,7 +34,7 @@ function Characters() {
           character.player_name.indexOf(filter) >= 0) {
           return true;
         }
-        return false
+        return false;
       });
     }
 
@@ -49,15 +50,19 @@ function Characters() {
 
     setData(sortedData);
     setIsLoading(false);
-  }
+  };
 
   const characterItems = () => {
     if (isLoading) {
-      return <tr><td colspan="6"><ProgressContent /></td></tr>
+      return <tr><td colSpan="6"><ProgressContent /></td></tr>;
     }
 
     if (data) {
-      return data.map((character, index) => {
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const paginatedData = data.slice(startIndex, endIndex);
+
+      return paginatedData.map((character, index) => {
         return (
           <tr key={index} onClick={() => { selectedCharacter(character) }}>
             <td>{character.id}</td>
@@ -67,10 +72,16 @@ function Characters() {
             <td>{character.alignment}</td>
             <td>{character.player_name}</td>
           </tr>
-        )
-      })
+        );
+      });
     }
-  }
+  };
+
+  const totalPages = data ? Math.ceil(data.length / itemsPerPage) : 1;
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
 
   useEffect(() => {
     fetchCharacters();
@@ -86,10 +97,21 @@ function Characters() {
         </div>
       </div>
       <div className="CharactersBody">
+        <div className="Pagination">
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index}
+              onClick={() => handlePageChange(index + 1)}
+              className={currentPage === index + 1 ? 'active' : ''}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
         <table className="CharactersTable">
           <tbody>
             <tr>
-              <th>ID</th>
+              <th>No.</th>
               <th>キャラクター名</th>
               <th>種族</th>
               <th>クラス＆レベル</th>

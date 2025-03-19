@@ -46,3 +46,7 @@
   background-color: lightblue;
 }
 
+.Pagination button.active {
+  background-color: #4CAF50;
+  color: white;
+}
