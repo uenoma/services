@@ -7,9 +7,20 @@ function Characters() {
 
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [sortKey, setSortKey] = useState('id');
+  const [sortDirection, setSortDirection] = useState('desc');
 
   const searchCharacter = () => {
     fetchCharacters();
+  }
+
+  const handleSort = (key) => {
+    if (sortKey === key) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortKey(key);
+      setSortDirection('asc');
+    }
   }
 
   const selectedCharacter = (character) => {
@@ -37,17 +48,7 @@ function Characters() {
       });
     }
 
-    const sortedData = filteredData.sort(function (a, b) {
-      if (a.id < b.id) {
-        return 1;
-      } else if (a.id > b.id) {
-        return -1;
-      } else {
-        return 0;
-      }
-    });
-
-    setData(sortedData);
+    setData(filteredData);
     setIsLoading(false);
   }
 
@@ -57,7 +58,17 @@ function Characters() {
     }
 
     if (data) {
-      return data.map((character, index) => {
+      const sortedData = [...data].sort((a, b) => {
+        let aVal = a[sortKey];
+        let bVal = b[sortKey];
+        if (sortDirection === 'asc') {
+          return aVal > bVal ? 1 : aVal < bVal ? -1 : 0;
+        } else {
+          return aVal < bVal ? 1 : aVal > bVal ? -1 : 0;
+        }
+      });
+
+      return sortedData.map((character, index) => {
         return (
           <tr key={index} onClick={() => { selectedCharacter(character) }}>
             <td>{character.id}</td>
@@ -89,12 +100,12 @@ function Characters() {
         <table className="CharactersTable">
           <tbody>
             <tr>
-              <th>ID</th>
-              <th>キャラクター名</th>
-              <th>種族</th>
-              <th>クラス＆レベル</th>
-              <th>属性</th>
-              <th>プレイヤー名</th>
+              <th onClick={() => handleSort('id')}>ID {sortKey === 'id' ? (sortDirection === 'asc' ? '▲' : '▼') : ''}</th>
+              <th onClick={() => handleSort('name')}>キャラクター名 {sortKey === 'name' ? (sortDirection === 'asc' ? '▲' : '▼') : ''}</th>
+              <th onClick={() => handleSort('species')}>種族 {sortKey === 'species' ? (sortDirection === 'asc' ? '▲' : '▼') : ''}</th>
+              <th onClick={() => handleSort('level')}>クラス＆レベル {sortKey === 'level' ? (sortDirection === 'asc' ? '▲' : '▼') : ''}</th>
+              <th onClick={() => handleSort('alignment')}>属性 {sortKey === 'alignment' ? (sortDirection === 'asc' ? '▲' : '▼') : ''}</th>
+              <th onClick={() => handleSort('player_name')}>プレイヤー名 {sortKey === 'player_name' ? (sortDirection === 'asc' ? '▲' : '▼') : ''}</th>
             </tr>
             {characterItems()}
           </tbody>
